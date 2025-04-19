@@ -1,11 +1,19 @@
 import { useState } from 'react';
 import Button from '../../ui/Button';
+import { useDispatch } from 'react-redux';
+import { updateName } from './userSlice';
+import { useNavigate } from 'react-router-dom';
 
 function CreateUser() {
   const [username, setUsername] = useState('');
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   function handleSubmit(e) {
     e.preventDefault();
+    if (!username) return;
+    dispatch(updateName(username));
+    navigate('/menu');
   }
 
   return (
@@ -13,7 +21,7 @@ function CreateUser() {
       <p className="mb-4 text-sm text-stone-600 md:text-base">
         👋 Welcome! Please start by telling us your name:
       </p>
-
+      {/* we dont make change redux store when the user is typing username (onChange) but after it in the handle submit we import username */}
       <input
         type="text"
         placeholder="Your full name"
